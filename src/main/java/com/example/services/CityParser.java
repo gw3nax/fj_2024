@@ -35,9 +35,9 @@ public class CityParser {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".xml"))) {
-            logger.info("{}.xml has been written successfully.", fileName);
             String xmlString = xmlMapper.writeValueAsString(city);
             writer.write(xmlString);
+            logger.info("{}.xml has been written successfully.", fileName);
         } catch (JsonProcessingException e) {
             logger.error("Failed to convert data to xml.");
         }catch (IOException e){
