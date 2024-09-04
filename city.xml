@@ -1,7 +1,1 @@
-<city>
-   <slug>vladivostok</slug>
-   <coords>
-       <lat>43.01362</lat>
-       <lon>131.93048</lon>
-   </coords>
-</city>
+<City><slug>vladivostok</slug><coords><lat>43.01362</lat><lon>131.93048</lon></coords></City>

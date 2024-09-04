@@ -13,12 +13,4 @@ public class Coords {
     private double lat;
     @JsonProperty("lon")
     private double lon;
-
-    @Override
-    public String toString() {
-        return    "   <coords>\n" +
-                "       <lat>" + lat + "</lat>\n" +
-                "       <lon>" + lon + "</lon>\n" +
-                "   </coords>\n";
-    }
 }

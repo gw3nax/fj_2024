@@ -13,12 +13,4 @@ public class City {
     private String slug;
     @JsonProperty("coords")
     private Coords coords;
-
-    @Override
-    public String toString() {
-        return "<city>\n" +
-                "   <slug>" + slug + "</slug>\n" +
-                    coords.toString() +
-                "</city>";
-    }
 }

@@ -1,6 +1,8 @@
 package main.java.com.example.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import main.java.com.example.entities.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import java.io.*;
 
 public class CityParser {
     private static final Logger logger = LoggerFactory.getLogger(CityParser.class);
+    private static final XmlMapper xmlMapper = new XmlMapper();
 
     public static City readJson(String fileName) {
         logger.info("Reading data from file {}", fileName);
@@ -17,7 +20,7 @@ public class CityParser {
         try {
             return objectMapper.readValue(new File(fileName), City.class);
         }catch (IOException e){
-            logger.error(e.getMessage());
+            logger.error("Failed to read data from file {}", fileName);
             return null;
         }
     }
@@ -30,13 +33,15 @@ public class CityParser {
         } else{
             logger.info("Data has readed successfully.");
         }
-        String cityXML = city.toString();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".xml"))) {
-            writer.write(cityXML);
             logger.info("{}.xml has been written successfully.", fileName);
-        } catch (IOException e) {
-            logger.warn(e.getMessage());
+            String xmlString = xmlMapper.writeValueAsString(city);
+            writer.write(xmlString);
+        } catch (JsonProcessingException e) {
+            logger.error("Failed to convert data to xml.");
+        }catch (IOException e){
+            logger.error("Failed write data to file {}", fileName);
         }
     }
 
