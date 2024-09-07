@@ -1,7 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,gradle
 
-.idea/
+.idea
 
 # CMake
 cmake-build-*/
