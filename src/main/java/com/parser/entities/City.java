@@ -1,13 +1,13 @@
-package main.java.com.example.entities;
+package com.parser.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class City {
     @JsonProperty("slug")
     private String slug;
