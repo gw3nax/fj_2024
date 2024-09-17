@@ -9,16 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 @Slf4j
 public class CityParser {
     private static final XmlMapper xmlMapper = new XmlMapper();
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static City readJson(Path path) {
         String fileName = path.getFileName().toString();
@@ -39,7 +36,7 @@ public class CityParser {
             return null;
         } else {
             log.debug("Data has read successfully.");
-            log.info("Parsed object: {}", city.toString());
+            log.info("Parsed object: {}", city);
         }
         String resultFileName = Stream.of(fileName)
                 .map(name -> name.replaceAll("\\.json$", ".xml"))
