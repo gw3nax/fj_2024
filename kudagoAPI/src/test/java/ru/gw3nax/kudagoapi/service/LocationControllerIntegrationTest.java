@@ -52,7 +52,6 @@ public class LocationControllerIntegrationTest {
                 wiremockServer.getHost(),
                 wiremockServer.getMappedPort(8080));
         registry.add("kudago.api.location-base-url", () -> wireMockUrl + "/public-api/v1.4/place-categories");
-        registry.add("kudago.api.location-base-url", () -> wireMockUrl + "/public-api/v1.4/locations");
     }
 
     @Test

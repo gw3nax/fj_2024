@@ -45,7 +45,6 @@ public class CategoryControllerIntegrationTest {
         wireMockUrl = String.format("http://%s:%d",
                 wiremockServer.getHost(),
                 wiremockServer.getMappedPort(8080));
-        registry.add("kudago.api.location-base-url", () -> wireMockUrl + "/public-api/v1.4/place-categories");
         registry.add("kudago.api.category-base-url", () -> wireMockUrl + "/public-api/v1.4/locations");
     }
 
