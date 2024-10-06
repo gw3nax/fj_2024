@@ -53,15 +53,14 @@ public class LocationService {
 
     public void updateLocation(Long id, LocationRequest request) {
         Optional<Location> optionalLocation = locationRepository.findById(id);
-        locationRepository.deleteById(id);
         if (optionalLocation.isPresent()) {
             Location location = optionalLocation.get();
             location.setName(request.getName());
             location.setTimezone(request.getTimezone());
             location.setLanguage(request.getLanguage());
             location.setSlug(request.getSlug());
-            locationRepository.save(location);
-        }
+            locationRepository.update(id, location);
+        } else throw new NoSuchElementException();
     }
 
     public void deleteLocation(Long id) {

@@ -30,10 +30,18 @@ public class CategoryRepository implements KudaGoRepository<Category> {
         category.setId(id);
         storage.put(id, category);
     }
-
+    @Override
+    public void update(Long id, Category category) {
+        storage.put(id, category);
+    }
     @Override
     public void deleteById(Long id) {
         storage.remove(id);
-        idGenerator.decrementAndGet();
+    }
+
+    @Override
+    public void clearAll() {
+        storage.clear();
+        idGenerator.set(0);
     }
 }
