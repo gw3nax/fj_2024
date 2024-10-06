@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: kudaGoAPI
+  jackson:
+    time-zone: UTC
+server:
+  port: 8080
+app:
+  kudago:
+    api:
+      location-base-url: https://kudago.com/public-api/v1.4/locations/?fields=slug,timezone,language,name
+      category-base-url: https://kudago.com/public-api/v1.4/place-categories
+

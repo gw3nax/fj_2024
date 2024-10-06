@@ -1,0 +1,3 @@
+rootProject.name = 'kudaGoAPI'
+include 'custom-starter'
+project(':custom-starter').projectDir = file('custom-starter')
