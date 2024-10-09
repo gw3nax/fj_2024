@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  title: Currency Exchanger API
+  description: API для получения курсов валют и конвертации валют с обработкой ошибок
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /currencies/rates/{currencyCode}:
+    get:
+      summary: Получить курс валюты
+      description: Возвращает курс валюты для указанного кода валюты
+      parameters:
+        - name: currencyCode
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Код валюты (например, USD, EUR)
+      responses:
+        '200':
+          description: Успешный ответ с курсом валюты
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyResponse'
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: "Некорректные параметры запроса"
+        '404':
+          description: Валюта не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: "Валюта не найдена"
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 500
+                message: "Что-то пошло не так"
+
+  /currencies/convert:
+    post:
+      summary: Конвертация валют
+      description: Конвертирует сумму из одной валюты в другую
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertCurrencyRequest'
+      responses:
+        '200':
+          description: Успешный ответ с результатом конвертации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertCurrencyResponse'
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: "Некорректные параметры запроса"
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 500
+                message: "Что-то пошло не так"
+
+components:
+  schemas:
+    CurrencyResponse:
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+          description: Текущий курс валюты
+        charCode:
+          type: string
+          description: Код валюты (например, USD)
+      example:
+        value: 73.50
+        charCode: USD
+
+    ConvertCurrencyRequest:
+      type: object
+      properties:
+        fromCurrency:
+          type: string
+          description: Код исходной валюты (например, USD)
+        toCurrency:
+          type: string
+          description: Код целевой валюты (например, EUR)
+        amount:
+          type: number
+          format: double
+          description: Сумма для конвертации
+      example:
+        fromCurrency: USD
+        toCurrency: EUR
+        amount: 100.0
+
+    ConvertCurrencyResponse:
+      type: object
+      properties:
+        fromCurrency:
+          type: string
+          description: Код исходной валюты
+        toCurrency:
+          type: string
+          description: Код целевой валюты
+        convertedAmount:
+          type: number
+          format: double
+          description: Сумма после конвертации
+      example:
+        fromCurrency: USD
+        toCurrency: EUR
+        convertedAmount: 85.0
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Код ошибки
+        message:
+          type: string
+          description: Сообщение об ошибке
+      example:
+        code: 400
+        message: "Некорректные параметры запроса"

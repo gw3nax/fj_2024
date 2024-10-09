@@ -1,3 +1,5 @@
 rootProject.name = 'fj_2024'
 include 'test'
+include 'currency_exchanger'
+include 'currency_exchanger'
 
