@@ -34,6 +34,16 @@ public class LocationRepository implements KudaGoRepository<Location> {
     @Override
     public void deleteById(Long id) {
         storage.remove(id);
-        idGenerator.decrementAndGet();
+    }
+
+    @Override
+    public void clearAll() {
+        storage.clear();
+        idGenerator.set(0);
+    }
+
+    @Override
+    public void update(Long id, Location location) {
+        storage.put(id, location);
     }
 }

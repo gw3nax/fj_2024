@@ -54,12 +54,11 @@ public class CategoryService {
 
     public void updateCategory(Long id, CategoryRequest category) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
-        categoryRepository.deleteById(id);
         if (categoryOptional.isPresent()) {
             Category categoryToUpdate = categoryOptional.get();
             categoryToUpdate.setName(category.getName());
             categoryToUpdate.setSlug(category.getSlug());
-            categoryRepository.save(categoryToUpdate);
+            categoryRepository.update(id, categoryToUpdate);
         } else throw new NoSuchElementException();
     }
 
