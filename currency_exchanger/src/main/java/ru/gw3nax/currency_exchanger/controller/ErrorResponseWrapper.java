@@ -29,8 +29,7 @@ public class ErrorResponseWrapper {
         for (Map.Entry<String, String> entry : e.getHeaders().entrySet()) {
             header.add(entry.getKey(), entry.getValue());
         }
-        throw new CBRUnavailableException("AAA");
-//        return new ResponseEntity<>(errorResponse, header, HttpStatus.valueOf(500));
+       return new ResponseEntity<>(errorResponse, header, HttpStatus.valueOf(500));
     }
 
     @ExceptionHandler({IllegalRequestArgumentsException.class})
