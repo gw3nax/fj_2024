@@ -12,12 +12,12 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
-import ru.gw3nax.kudagoAPI.controller.dto.CategoryResponse;
-import ru.gw3nax.kudagoAPI.controller.dto.LocationRequest;
-import ru.gw3nax.kudagoAPI.controller.dto.LocationResponse;
-import ru.gw3nax.kudagoAPI.entity.Location;
-import ru.gw3nax.kudagoAPI.mapper.LocationMapper;
-import ru.gw3nax.kudagoAPI.repository.LocationRepository;
+import ru.gw3nax.kudagoapi.controller.dto.CategoryResponse;
+import ru.gw3nax.kudagoapi.controller.dto.LocationRequest;
+import ru.gw3nax.kudagoapi.controller.dto.LocationResponse;
+import ru.gw3nax.kudagoapi.entity.Location;
+import ru.gw3nax.kudagoapi.mapper.LocationMapper;
+import ru.gw3nax.kudagoapi.repository.LocationRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

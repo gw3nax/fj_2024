@@ -27,6 +27,7 @@ public class CurrencyExchangerController {
 
     @PostMapping("/convert")
     public ConvertCurrencyResponse postForConvertCurrency(@RequestBody ConvertCurrencyRequest convertCurrencyRequest) {
+        log.info("Currency conversion started");
         return currencyExchangeService.convertCurrency(convertCurrencyRequest);
     }
 }
