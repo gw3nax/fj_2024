@@ -5,12 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.gw3nax.kudagoAPI.controller.dto.CategoryRequest;
-import ru.gw3nax.kudagoAPI.controller.dto.CategoryResponse;
-import ru.gw3nax.kudagoAPI.entity.Category;
-import ru.gw3nax.kudagoAPI.mapper.CategoryMapper;
-import ru.gw3nax.kudagoAPI.repository.CategoryRepository;
-import ru.gw3nax.kudagoAPI.service.CategoryService;
+import ru.gw3nax.kudagoapi.controller.dto.CategoryRequest;
+import ru.gw3nax.kudagoapi.controller.dto.CategoryResponse;
+import ru.gw3nax.kudagoapi.entity.Category;
+import ru.gw3nax.kudagoapi.mapper.CategoryMapper;
+import ru.gw3nax.kudagoapi.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;

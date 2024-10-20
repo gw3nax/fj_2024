@@ -1,3 +1,4 @@
 rootProject.name = 'kudaGoAPI'
 include 'custom-starter'
+include 'currency_exchanger'
 project(':custom-starter').projectDir = file('custom-starter')

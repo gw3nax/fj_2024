@@ -3,11 +3,18 @@ spring:
     name: kudaGoAPI
   jackson:
     time-zone: UTC
+  profiles:
+# could be: reactor or future
+    active: reactor
 server:
-  port: 8080
+  port: 8090
 app:
-  kudago:
-    api:
-      location-base-url: https://kudago.com/public-api/v1.4/locations/?fields=slug,timezone,language,name
-      category-base-url: https://kudago.com/public-api/v1.4/place-categories
+  location-base-url: https://kudago.com/public-api/v1.4/locations/?fields=slug,timezone,language,name
+  category-base-url: https://kudago.com/public-api/v1.4/place-categories
+  events-base-url:  https://kudago.com/public-api/v1.4/events/?fields=price,is_free,title,description,site_url&order_by=favorites_count
+  currency-base-url: http://localhost:8080/currencies/convert
+  fixed-thread-pool-size: 2
+  duration: 3600
+  max-requests: 10
+
 

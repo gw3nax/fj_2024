@@ -30,17 +30,15 @@ dependencies {
     implementation 'org.springframework:spring-aspects:6.0.11'
     implementation project(':custom-starter')
 
+    implementation 'io.projectreactor:reactor-core:3.6.11'
+
     testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
     testImplementation 'org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-13'
 
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.jeasy:easy-random-core:5.0.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
