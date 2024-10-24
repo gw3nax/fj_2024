@@ -12,7 +12,7 @@ public class ErrorResponseWrapper {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleServiceException(ServiceException e) {
         return ResponseEntity
-                .internalServerError()
+                .status(e.getCode())
                 .body(new ErrorResponse(e.getMessage(), e.getCode()));
     }
 }

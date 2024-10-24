@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: static/migrations/changelog/V2__create_places_table.sql
+  - include:
+      file: static/migrations/changelog/V1__create_events_table.sql

@@ -1,7 +1,9 @@
 package ru.gw3nax.kudagoapi.mapper;
 
 import ru.gw3nax.kudagoapi.client.dto.KudaGoEventResponse;
+import ru.gw3nax.kudagoapi.controller.dto.EventResponse;
 import ru.gw3nax.kudagoapi.controller.dto.EventsResponse;
+import ru.gw3nax.kudagoapi.entity.Event;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,5 +24,15 @@ public class EventMapper {
         eventsResponse.setTitle(kudaGoEventResponse.getTitle());
         eventsResponse.setSite_url(kudaGoEventResponse.getSite_url());
         return eventsResponse;
+    }
+
+    public static EventResponse mapToEventResponse(Event event) {
+        return EventResponse.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .date(event.getDate())
+                .placeId(event.getPlace().getId())
+                .build();
+
     }
 }

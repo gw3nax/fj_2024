@@ -1,4 +1,4 @@
-package ru.gw3nax.kudagoapi.service;
+package ru.gw3nax.kudagoapi.controller.location;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

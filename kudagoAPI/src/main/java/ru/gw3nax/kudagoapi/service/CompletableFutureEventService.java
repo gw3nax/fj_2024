@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Profile("future")
-public class CompletableFutureEventService implements EventService {
+public class CompletableFutureEventService implements MultithreadingEventService {
     private final CurrencyClient currencyClient;
     private final EventsClient eventsClient;
     AtomicReference<List<EventsResponse>> filteredEvents = new AtomicReference<>();
@@ -48,8 +48,8 @@ public class CompletableFutureEventService implements EventService {
 
         return eventsFuture.thenAcceptBoth(convertedBudgetFuture, (events, convertedBudget) ->
                 filteredEvents.set(events.stream()
-                .map(EventMapper::mapToEventsResponse)
-                .filter(event -> event.getPrice().compareTo(convertedBudget) <= 0)
-                .collect(Collectors.toList()))).thenApply(v -> filteredEvents.get());
+                        .map(EventMapper::mapToEventsResponse)
+                        .filter(event -> event.getPrice().compareTo(convertedBudget) <= 0)
+                        .collect(Collectors.toList()))).thenApply(v -> filteredEvents.get());
     }
 }

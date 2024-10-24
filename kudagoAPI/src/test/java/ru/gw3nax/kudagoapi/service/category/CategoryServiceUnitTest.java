@@ -1,4 +1,4 @@
-package ru.gw3nax.kudagoapi.service;
+package ru.gw3nax.kudagoapi.service.category;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import ru.gw3nax.kudagoapi.controller.dto.CategoryResponse;
 import ru.gw3nax.kudagoapi.entity.Category;
 import ru.gw3nax.kudagoapi.mapper.CategoryMapper;
 import ru.gw3nax.kudagoapi.repository.CategoryRepository;
+import ru.gw3nax.kudagoapi.service.CategoryService;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -1,4 +1,4 @@
-package ru.gw3nax.kudagoapi.service;
+package ru.gw3nax.kudagoapi.service.location;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import ru.gw3nax.kudagoapi.controller.dto.LocationResponse;
 import ru.gw3nax.kudagoapi.entity.Location;
 import ru.gw3nax.kudagoapi.mapper.LocationMapper;
 import ru.gw3nax.kudagoapi.repository.LocationRepository;
+import ru.gw3nax.kudagoapi.service.LocationService;
 
 import java.util.List;
 import java.util.NoSuchElementException;

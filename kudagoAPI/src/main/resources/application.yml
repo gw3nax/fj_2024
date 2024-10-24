@@ -6,6 +6,18 @@ spring:
   profiles:
 # could be: reactor or future
     active: reactor
+  datasource:
+    url: jdbc:postgresql://localhost:5433/lab_10
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+      format_sql: true
+    show-sql: true
+  liquibase:
+    change-log: static/migrations/db.changelog-master.yml
 server:
   port: 8090
 app:

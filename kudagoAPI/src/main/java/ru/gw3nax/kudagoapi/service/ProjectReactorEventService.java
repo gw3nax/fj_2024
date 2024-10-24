@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Profile("reactor")
-public class ProjectReactorEventService implements EventService {
+public class ProjectReactorEventService implements MultithreadingEventService {
     private final CurrencyClient currencyClient;
     private final EventsClient eventsClient;
 
