@@ -21,7 +21,7 @@ public class ProfilingAnnotationAspect {
         Method method = signature.getMethod();
         Class<?> clazz = method.getDeclaringClass();
         Object value;
-        log.info("Profiling [" + method.getName() + "] ...");
+        log.info("Profiling [" + method.getName() + "] from class [" + clazz.getName() + "]");
         Long startTime = System.currentTimeMillis();
         try {
             value = pjp.proceed();
