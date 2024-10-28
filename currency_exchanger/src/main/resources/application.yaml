@@ -5,15 +5,18 @@ spring:
     time-zone: UTC
 server:
   port: 8080
+
 app:
   cbr:
     cbr-base-url: https://www.cbr.ru/scripts/XML_daily.asp
+
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
     url: /application-doc.yaml
+
 resilience4j.circuitbreaker:
   instances:
     cbr-api:

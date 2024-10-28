@@ -1,13 +1,15 @@
 package ru.gw3nax.currency_exchanger.controller.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CurrencyResponse {
-    String charCode;
-    Double value;
+    private String charCode;
+    private Double value;
 }

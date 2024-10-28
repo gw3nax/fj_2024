@@ -24,13 +24,13 @@ import java.util.List;
 @Slf4j
 public class CBRClient {
 
-    String BASE_URL;
+    private final String BASEURL;
     private final XmlMapper xmlMapper = new XmlMapper();
     private HttpClient httpClient = HttpClientBuilder.create().build();
 
     @Autowired
     CBRClient(ApplicationConfig applicationConfig) {
-        this.BASE_URL = applicationConfig.cbrBaseUrl();
+        this.BASEURL = applicationConfig.cbrBaseUrl();
     }
 
     @Cacheable(value = "cbr_cache", key = "#root.method.name")
@@ -38,12 +38,11 @@ public class CBRClient {
     public List<CBRResponse> getCurrencies() {
         log.info("Getting data from CBR...");
         try {
-            String entity = EntityUtils.toString(httpClient.execute(new HttpGet(BASE_URL)).getEntity());
+            String entity = EntityUtils.toString(httpClient.execute(new HttpGet(BASEURL)).getEntity());
             log.info("Received response: {}", entity);
             return xmlMapper.readValue(entity, new TypeReference<>() {});
         } catch (IOException e) {
-            throw new CBRUnavailableException("CBR service is unavailable")
-                    .addHeader("Retry-After", "3600");
+            throw new CBRUnavailableException("CBR service is unavailable");
         }
     }
 

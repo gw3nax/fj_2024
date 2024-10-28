@@ -1,4 +1,4 @@
-package ru.gw3nax.kudagoapi.service;
+package ru.gw3nax.currency_exchanger.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +37,6 @@ class CurrencyIntegrationTest {
 
     @Autowired
     protected WebTestClient webClient;
-
-    @LocalServerPort
-    private int port;
 
     @DynamicPropertySource
     static void overrideProperties(DynamicPropertyRegistry registry) {

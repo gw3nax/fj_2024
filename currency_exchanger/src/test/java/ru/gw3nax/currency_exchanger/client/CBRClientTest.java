@@ -1,54 +1,59 @@
 package ru.gw3nax.currency_exchanger.client;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.gw3nax.currency_exchanger.config.ApplicationConfig;
-import ru.gw3nax.currency_exchanger.exceptions.CBRUnavailableException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.wiremock.integrations.testcontainers.WireMockContainer;
+import ru.gw3nax.currency_exchanger.CurrencyExchangerApplication;
+import ru.gw3nax.currency_exchanger.controller.dto.ErrorResponse;
 
-import java.io.IOException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = CurrencyExchangerApplication.class)
+@AutoConfigureMockMvc
+@Testcontainers
+@TestPropertySource(properties = "app.cbr.cbr-base-url=aaaa")
 class CBRClientTest {
 
-    @Mock
-    ApplicationConfig applicationConfig;
-    @Mock
-    private HttpClient httpClient;
+    @Container
+    private static final WireMockContainer wiremockServer = new WireMockContainer("wiremock/wiremock:2.35.0");
+    private static String BASEURL = "/currencies/rates";
+    private static String wireMockUrl;
+    @Autowired
+    protected WebTestClient webClient;
 
-    @InjectMocks
-    private CBRClient cbrClient;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        cbrClient.BASE_URL = "http://example.com/";
+    @DynamicPropertySource
+    static void overrideProperties(DynamicPropertyRegistry registry) {
+        wireMockUrl = String.format("http://%s:%d",
+                wiremockServer.getHost(),
+                wiremockServer.getMappedPort(8080));
     }
 
-
     @Test
-    void getAllCurrenciesFromCB_ShouldThrowServiceException_WhenIOExceptionOccurs() throws Exception {
-        when(httpClient.execute(any(HttpGet.class))).thenThrow(new IOException("Exception occurred"));
+    void getCurrency_shouldThrowCBRUnavailableException(){
+        var expectedResponse = ErrorResponse.builder()
+                .message("CBR service is unavailable")
+                .code(503)
+                .build();
 
-        CBRUnavailableException exception = assertThrows(CBRUnavailableException.class, () -> {
-            cbrClient.getCurrencies();
-        });
-
-        assertEquals(exception.getHeaders().get("Retry-After"), "3600");
+        var actualResponse = webClient.get()
+                .uri(BASEURL + "/USD")
+                .exchange()
+                .expectStatus()
+                .is5xxServerError()
+                .expectBody(ErrorResponse.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
     }
 }

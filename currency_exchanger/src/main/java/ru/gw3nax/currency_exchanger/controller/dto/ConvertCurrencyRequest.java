@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConvertCurrencyRequest {
-    String fromCurrency;
-    String toCurrency;
-    Double amount;
+    private String fromCurrency;
+    private String toCurrency;
+    private Double amount;
 }

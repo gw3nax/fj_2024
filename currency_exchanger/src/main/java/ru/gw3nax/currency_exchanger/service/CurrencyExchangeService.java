@@ -70,14 +70,14 @@ public class CurrencyExchangeService {
         CurrencyResponse toCurrencyRate;
         double convertedAmount;
 
-        if (convertCurrencyRequest.getFromCurrency().equals(RUB_CODE)) {
+        if (RUB_CODE.equals(convertCurrencyRequest.getFromCurrency())) {
             toCurrencyRate = findNeededCurrency(currencyRates, convertCurrencyRequest.getToCurrency());
             convertedAmount = convertCurrencyRequest.getAmount() / toCurrencyRate.getValue();
             return ConvertCurrencyResponseMapper.mapToCurrencyResponse(
                     convertCurrencyRequest,
                     new BigDecimal(convertedAmount).setScale(2, RoundingMode.HALF_UP).doubleValue()
             );
-        } else if (convertCurrencyRequest.getToCurrency().equals(RUB_CODE)) {
+        } else if (RUB_CODE.equals(convertCurrencyRequest.getToCurrency())) {
             fromCurrencyRate = findNeededCurrency(currencyRates, convertCurrencyRequest.getFromCurrency());
             convertedAmount = convertCurrencyRequest.getAmount() * fromCurrencyRate.getValue();
             return ConvertCurrencyResponseMapper.mapToCurrencyResponse(

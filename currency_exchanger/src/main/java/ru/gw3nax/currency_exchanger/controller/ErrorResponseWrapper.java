@@ -21,15 +21,14 @@ public class ErrorResponseWrapper {
     @ExceptionHandler({CBRUnavailableException.class})
     public ResponseEntity<ErrorResponse> handleCBRUnavailableException(CBRUnavailableException e) {
         log.error("CBRUnavailableException was caught with reason: {}", e.getMessage());
-        var errorResponse = new ErrorResponse();
-        errorResponse.setMessage(e.getMessage());
-        errorResponse.setCode(500);
+        var errorResponse = ErrorResponse.builder()
+                .message(e.getMessage())
+                .code(503)
+                .build();
 
         var header = new HttpHeaders();
-        for (Map.Entry<String, String> entry : e.getHeaders().entrySet()) {
-            header.add(entry.getKey(), entry.getValue());
-        }
-       return new ResponseEntity<>(errorResponse, header, HttpStatus.valueOf(500));
+        header.add("Retry-After", "3600");
+       return new ResponseEntity<>(errorResponse, header, HttpStatus.valueOf(503));
     }
 
     @ExceptionHandler({IllegalRequestArgumentsException.class})

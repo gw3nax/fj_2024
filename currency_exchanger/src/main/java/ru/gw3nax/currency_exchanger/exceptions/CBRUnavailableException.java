@@ -7,14 +7,7 @@ import java.util.Map;
 
 @Data
 public class CBRUnavailableException extends RuntimeException {
-    private final Map<String, String> headers = new HashMap<>();
-
     public CBRUnavailableException(String message) {
         super(message);
-    }
-
-    public CBRUnavailableException addHeader(String message, String cause) {
-        headers.put(message, cause);
-        return this;
     }
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CBRResponse {
     @JacksonXmlProperty(localName = "CharCode")
-    String charCode;
+    private String charCode;
     @JacksonXmlProperty(localName = "VunitRate")
-    String value;
+    private String value;
 }
