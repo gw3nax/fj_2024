@@ -7,7 +7,7 @@ spring:
 # could be: reactor or future
     active: reactor
   datasource:
-    url: jdbc:postgresql://localhost:5433/lab_10
+    url: jdbc:postgresql://localhost:5433/fintech
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver

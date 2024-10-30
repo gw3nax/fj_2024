@@ -7,6 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import ru.gw3nax.customstarter.PostProxy.PostProxy;
 import ru.gw3nax.customstarter.aspect.Profiling;
+import ru.gw3nax.kudagoapi.command.InitCommand;
 import ru.gw3nax.kudagoapi.configuration.ApplicationConfig;
 import ru.gw3nax.kudagoapi.exception.ServiceException;
 
@@ -18,25 +19,22 @@ import java.util.concurrent.*;
 @Slf4j
 public class DataInitializationService {
 
-    private final ExecutorService fixedThreadPool;
+    private final List<InitCommand> initCommands;
     private final ScheduledExecutorService scheduledThreadPool;
+    private final ExecutorService fixedThreadPool;
     private final Long duration;
-    private final CategoryService categoryService;
-    private final LocationService locationService;
     private final Semaphore semaphore;
 
     public DataInitializationService(
-            @Qualifier("dataInitializationExecutor") ExecutorService fixedThreadPool,
             @Qualifier("dataScheduledExecutor") ScheduledExecutorService scheduledThreadPool,
             ApplicationConfig applicationConfig,
-            CategoryService categoryService,
-            LocationService locationService
+            List<InitCommand> initCommands,
+            @Qualifier("dataInitializationExecutor") ExecutorService fixedThreadPool
     ) {
         this.fixedThreadPool = fixedThreadPool;
+        this.initCommands = initCommands;
         this.scheduledThreadPool = scheduledThreadPool;
         this.duration = applicationConfig.duration();
-        this.categoryService = categoryService;
-        this.locationService = locationService;
         this.semaphore = new Semaphore(applicationConfig.maxRequests());
     }
 
@@ -50,9 +48,7 @@ public class DataInitializationService {
     @Profiling
     public void initializeData() {
         List<Future<?>> futures = new ArrayList<>();
-        futures.add(fixedThreadPool.submit(this::initializeCategories));
-        futures.add(fixedThreadPool.submit(this::initializeLocations));
-
+        futures.add(fixedThreadPool.submit(this::init));
         for (Future<?> future : futures) {
             try {
                 future.get();
@@ -62,10 +58,12 @@ public class DataInitializationService {
         }
     }
 
-    private void initializeCategories() {
+    private void init() {
         try {
             semaphore.acquire();
-            categoryService.init();
+            for (InitCommand initCommand : initCommands) {
+                initCommand.execute();
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
@@ -73,14 +71,4 @@ public class DataInitializationService {
         }
     }
 
-    private void initializeLocations() {
-        try {
-            semaphore.acquire();
-            locationService.init();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            semaphore.release();
-        }
-    }
 }

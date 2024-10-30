@@ -32,7 +32,7 @@ public class ExecutorServiceConfig {
 
     @Bean(name = "dataScheduledExecutor")
     public ScheduledExecutorService dataScheduledExecutor() {
-        return Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        return Executors.newScheduledThreadPool(fixedThreadPoolSize, new ThreadFactory() {
             private int count = 0;
 
             @Override

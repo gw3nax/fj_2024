@@ -3,3 +3,7 @@ databaseChangeLog:
       file: static/migrations/changelog/V2__create_places_table.sql
   - include:
       file: static/migrations/changelog/V1__create_events_table.sql
+  - include:
+      file: static/migrations/changelog/V3_create_events_snapshot_table.sql
+  - include:
+      file: static/migrations/changelog/V4_create_places_snapshot_table.sql
