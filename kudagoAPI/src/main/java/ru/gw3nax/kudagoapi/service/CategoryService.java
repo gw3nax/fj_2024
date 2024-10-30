@@ -2,6 +2,7 @@ package ru.gw3nax.kudagoapi.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import ru.gw3nax.customstarter.aspect.Profiling;
 import ru.gw3nax.kudagoapi.client.CategoryClient;
@@ -10,6 +11,8 @@ import ru.gw3nax.kudagoapi.controller.dto.CategoryResponse;
 import ru.gw3nax.kudagoapi.entity.Category;
 import ru.gw3nax.kudagoapi.mapper.CategoryMapper;
 import ru.gw3nax.kudagoapi.mapper.KudaGoCategoryMapper;
+import ru.gw3nax.kudagoapi.observer.EntityEvent;
+import ru.gw3nax.kudagoapi.observer.EntityEventType;
 import ru.gw3nax.kudagoapi.repository.CategoryRepository;
 
 import java.util.List;
@@ -24,6 +27,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final CategoryClient categoryClient;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Profiling
     public void init() {
@@ -48,6 +52,7 @@ public class CategoryService {
 
     public void postCategory(CategoryRequest request) {
         Category category = categoryMapper.mapToCategory(request);
+        applicationEventPublisher.publishEvent(new EntityEvent<>(this, category, EntityEventType.CREATED));
         categoryRepository.save(category);
     }
 
@@ -55,6 +60,7 @@ public class CategoryService {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category categoryToUpdate = categoryOptional.get();
+            applicationEventPublisher.publishEvent(new EntityEvent<>(this, categoryToUpdate, EntityEventType.UPDATED));
             categoryToUpdate.setName(category.getName());
             categoryToUpdate.setSlug(category.getSlug());
             categoryRepository.update(id, categoryToUpdate);
@@ -63,6 +69,8 @@ public class CategoryService {
 
     public void deleteCategory(Long id) {
         if (categoryRepository.findById(id).isPresent()) {
+            var category = categoryRepository.findById(id).get();
+            applicationEventPublisher.publishEvent(new EntityEvent<>(this, category, EntityEventType.DELETED));
             categoryRepository.deleteById(id);
         } else throw new NoSuchElementException();
     }

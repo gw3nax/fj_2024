@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public class CustomLinkedList<T> implements Iterable<T> {
     private final Node<T> first;
@@ -113,6 +114,13 @@ public class CustomLinkedList<T> implements Iterable<T> {
                 T data = current.data;
                 current = current.next;
                 return data;
+            }
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            while (hasNext()) {
+                action.accept(next());
             }
         }
 
