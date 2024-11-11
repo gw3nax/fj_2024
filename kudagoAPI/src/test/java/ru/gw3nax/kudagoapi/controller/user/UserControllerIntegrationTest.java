@@ -329,7 +329,7 @@ class UserControllerIntegrationTest {
 
         webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/api/v2/places")
+                        .path("/secured")
                         .build())
                 .header("Authentication", "Bearer " + token.getToken())
                 .exchange()

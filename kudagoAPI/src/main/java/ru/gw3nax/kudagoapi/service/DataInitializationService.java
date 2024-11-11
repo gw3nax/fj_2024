@@ -53,6 +53,7 @@ public class DataInitializationService {
             try {
                 future.get();
             } catch (Exception e) {
+                log.error(e.getMessage(), e);
                 throw new ServiceException("Ошибка при инициализации данных", 500);
             }
         }
