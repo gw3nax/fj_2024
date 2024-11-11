@@ -1,8 +1,9 @@
 name: CI Pipeline
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -43,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
-          path: build/reports/jacoco/test/jacocoTestReport.xml
+          path: kudagoAPI/build/reports/jacoco/test/jacocoTestReport.xml
 
   lint:
     runs-on: ubuntu-latest
