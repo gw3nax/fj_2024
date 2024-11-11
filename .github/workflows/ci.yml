@@ -67,7 +67,7 @@ jobs:
 
       - name: Check if JAR file exists
         run: |
-          if [ ! -f lesson5/build/libs/lesson5.jar ]; then
+          if [ ! -f kudagoAPI/build/libs/kudagoAPI-0.0.1-SNAPSHOT.jar ]; then
             echo "JAR file not found! Check if the build step created the file."
             exit 1
           fi
@@ -76,7 +76,7 @@ jobs:
         run: |
           docker build -t "${{ steps.global_env.outputs.DOCKER_IMAGE_NAME }}:latest" \
                        -t "${{ steps.global_env.outputs.DOCKER_IMAGE_NAME }}:${GITHUB_SHA::8}" \
-                       -f lesson5/Dockerfile .
+                       -f kudagoAPI/Dockerfile .
 
       - name: Push Docker image to GitHub Packages
         run: |
