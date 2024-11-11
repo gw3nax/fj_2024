@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
 public class ExecutorServiceConfig {
@@ -21,11 +22,11 @@ public class ExecutorServiceConfig {
     @Bean(name = "dataInitializationExecutor")
     public ExecutorService dataInitializationExecutor(){
         return Executors.newFixedThreadPool(fixedThreadPoolSize, new ThreadFactory() {
-            private int count = 0;
+            private AtomicInteger count = new AtomicInteger(0);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "Data-Init-Thread-" + count++);
+                return new Thread(r, "Data-Init-Thread-" + count.getAndIncrement());
             }
         });
     }
@@ -33,11 +34,11 @@ public class ExecutorServiceConfig {
     @Bean(name = "dataScheduledExecutor")
     public ScheduledExecutorService dataScheduledExecutor() {
         return Executors.newScheduledThreadPool(1, new ThreadFactory() {
-            private int count = 0;
+            private AtomicInteger count = new AtomicInteger(0);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "Data-Schedule-Thread-" + count++);
+                return new Thread(r, "Data-Schedule-Thread-" + count.getAndIncrement());
             }
         });
     }

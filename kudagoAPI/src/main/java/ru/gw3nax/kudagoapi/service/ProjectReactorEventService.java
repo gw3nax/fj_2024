@@ -28,9 +28,7 @@ public class ProjectReactorEventService implements EventService {
     @Override
     public Mono<List<EventsResponse>> getEvents(Integer budget, String currency, LocalDate dateFrom, LocalDate dateTo) {
         log.info("Project Reactor Method is invoked");
-        Mono<Double> convertedBudgetMono = Mono.defer(
-                () -> Mono.just(currencyClient.postForConvertCurrency(new CurrencyRequest(currency, "RUB", (double) budget)))
-        );
+        Mono<Double> convertedBudgetMono = Mono.fromCallable(() ->currencyClient.postForConvertCurrency(new CurrencyRequest(currency, "RUB", (double) budget)));
 
         Mono<List<KudaGoEventResponse>> eventsMono = Mono.defer(
                 () -> Mono.just(eventsClient.getAllEntities(dateFrom.atStartOfDay().toEpochSecond(ZoneOffset.UTC),

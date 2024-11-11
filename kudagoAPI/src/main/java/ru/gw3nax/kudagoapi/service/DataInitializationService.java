@@ -10,7 +10,9 @@ import ru.gw3nax.customstarter.aspect.Profiling;
 import ru.gw3nax.kudagoapi.configuration.ApplicationConfig;
 import ru.gw3nax.kudagoapi.exception.ServiceException;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -20,7 +22,7 @@ public class DataInitializationService {
 
     private final ExecutorService fixedThreadPool;
     private final ScheduledExecutorService scheduledThreadPool;
-    private final Long duration;
+    private final Duration duration;
     private final CategoryService categoryService;
     private final LocationService locationService;
     private final Semaphore semaphore;
@@ -42,24 +44,30 @@ public class DataInitializationService {
 
     @EventListener(ApplicationStartedEvent.class)
     public void onApplicationStarted() {
-        scheduledThreadPool.scheduleAtFixedRate(this::initializeData, duration,
-                duration, TimeUnit.SECONDS);
+        scheduledThreadPool.scheduleAtFixedRate(this::initializeData, duration.toSeconds(), duration.toSeconds(), TimeUnit.SECONDS);
     }
 
     @PostProxy
     @Profiling
     public void initializeData() {
-        List<Future<?>> futures = new ArrayList<>();
-        futures.add(fixedThreadPool.submit(this::initializeCategories));
-        futures.add(fixedThreadPool.submit(this::initializeLocations));
+        List<CompletableFuture<Void>> futures = Arrays.asList(
+                CompletableFuture.runAsync(this::initializeCategories, fixedThreadPool),
+                CompletableFuture.runAsync(this::initializeLocations, fixedThreadPool)
+        );
 
-        for (Future<?> future : futures) {
-            try {
-                future.get();
-            } catch (Exception e) {
-                throw new ServiceException("Ошибка при инициализации данных", 500);
-            }
+        try {
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        } catch (Exception e) {
+            throw new ServiceException("Ошибка при инициализации данных", 500);
         }
+
+
+        try {
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        } catch (Exception e) {
+            throw new ServiceException("Ошибка при инициализации данных", 500);
+        }
+
     }
 
     private void initializeCategories() {

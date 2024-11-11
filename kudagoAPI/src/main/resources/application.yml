@@ -14,7 +14,7 @@ app:
   events-base-url:  https://kudago.com/public-api/v1.4/events/?fields=price,is_free,title,description,site_url&order_by=favorites_count
   currency-base-url: http://localhost:8080/currencies/convert
   fixed-thread-pool-size: 2
-  duration: 3600
+  duration: 3600s
   max-requests: 10
 
 
