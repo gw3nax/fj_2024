@@ -53,7 +53,7 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
 
       - name: Build with Gradle
-        working-directory: kudagoAPI
+        working-directory: ./kudagoAPI
         run: ./gradlew clean build -x test
 
       - name: Set global environment variables
@@ -67,7 +67,7 @@ jobs:
 
       - name: Check if JAR file exists
         run: |
-          if [ ! -f kudagoAPI/build/libs/kudagoAPI-0.0.1-SNAPSHOT.jar ]; then
+          if [ ! -f kudagoAPI/build/libs/kudagoAPI.jar ]; then
             echo "JAR file not found! Check if the build step created the file."
             exit 1
           fi
