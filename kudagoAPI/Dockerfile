@@ -1,4 +1,4 @@
-FFROM openjdk:17-jdk-slim
+FFROM openjdk:21-jdk-slim
 
  WORKDIR /app
 
