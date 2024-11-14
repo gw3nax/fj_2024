@@ -148,7 +148,7 @@ jobs:
   docker:
     permissions:
       packages: write
-      pull-requests: write
+      contents: read
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -188,18 +188,28 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: postgres
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/gw3nax/fintech:latest .
+        run: docker build -t ghcr.io/gw3nax/fintech:latest -t docker.pkg.github.com/gw3nax/fj_2024/fintech:latest .
         working-directory: kudagoAPI
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GitHub Container Registry and GitHub Packages
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.CR_PAT }}
 
+      - name: Log in to GitHub Packages
+        uses: docker/login-action@v2
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}
+
       - name: Push Docker image to GitHub Container Registry
         run: docker push ghcr.io/gw3nax/fintech:latest
+
+      - name: Push Docker image to GitHub Packages
+        run: docker push docker.pkg.github.com/gw3nax/fj_2024/fintech:latest
 
   coverage_report:
     permissions:
