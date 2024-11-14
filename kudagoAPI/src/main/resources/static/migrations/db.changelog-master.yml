@@ -7,3 +7,5 @@ databaseChangeLog:
       file: static/migrations/changelog/V3_create_events_snapshot_table.sql
   - include:
       file: static/migrations/changelog/V4_create_places_snapshot_table.sql
+  - include:
+      file: static/migrations/changelog/V5-create_table_users.sql
