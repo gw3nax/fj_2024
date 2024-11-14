@@ -50,6 +50,10 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build --refresh-dependencies
         working-directory: kudagoAPI
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/fintech
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
 
   test:
     runs-on: ubuntu-latest
@@ -117,6 +121,10 @@ jobs:
       - name: Run static code analysis
         run: ./gradlew check
         working-directory: kudagoAPI
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/fintech
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
 
   docker:
     permissions:
