@@ -118,6 +118,7 @@ class UserControllerIntegrationTest {
                 .rememberMe(true)
                 .build();
 
+
         var actualResponse = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path(BASE_URL + "/sign-in")
@@ -239,6 +240,7 @@ class UserControllerIntegrationTest {
                 .code(401)
                 .build();
 
+
         var actualResponse = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path(BASE_URL + "/reset-password")
@@ -329,7 +331,7 @@ class UserControllerIntegrationTest {
 
         webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/api/v2/places")
+                        .path("/secured")
                         .build())
                 .header("Authentication", "Bearer " + token.getToken())
                 .exchange()

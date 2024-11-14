@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationEventPublisher;
 import ru.gw3nax.kudagoapi.controller.dto.CategoryRequest;
 import ru.gw3nax.kudagoapi.controller.dto.CategoryResponse;
 import ru.gw3nax.kudagoapi.entity.Category;
@@ -26,6 +27,9 @@ class CategoryServiceUnitTest {
 
     @Mock
     private CategoryMapper categoryMapper;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
     private CategoryService categoryService;

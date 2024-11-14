@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationEventPublisher;
 import ru.gw3nax.kudagoapi.client.LocationClient;
 import ru.gw3nax.kudagoapi.client.dto.KudaGoLocationResponse;
 import ru.gw3nax.kudagoapi.controller.dto.LocationRequest;
@@ -32,6 +33,9 @@ class LocationServiceUnitTest {
 
     @Mock
     private LocationMapper locationMapper;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
     private LocationService locationService;
