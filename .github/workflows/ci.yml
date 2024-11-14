@@ -188,8 +188,7 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: postgres
 
       - name: Build Docker image
-        run: |
-          docker build -t ghcr.io/gw3nax/fintech:latest .
+        run: docker build -t ghcr.io/gw3nax/fintech:latest .
         working-directory: kudagoAPI
 
       - name: Log in to GitHub Container Registry
@@ -201,7 +200,6 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: docker push ghcr.io/gw3nax/fintech:latest
-        working-directory: kudagoAPI
 
   coverage_report:
     permissions:
