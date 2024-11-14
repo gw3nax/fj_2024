@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import ru.gw3nax.kudagoapi.command.InitCommand;
 import ru.gw3nax.kudagoapi.configuration.ApplicationConfig;
 import ru.gw3nax.kudagoapi.service.DataInitializationService;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.*;
 
 import static org.mockito.Mockito.*;
@@ -21,6 +24,9 @@ class DataInitializationServiceTest {
     private ScheduledExecutorService scheduledThreadPool;
 
     @Mock
+    private List<InitCommand> initCommands;
+
+    @Mock
     private ApplicationConfig applicationConfig;
 
     @InjectMocks
@@ -31,6 +37,7 @@ class DataInitializationServiceTest {
         MockitoAnnotations.openMocks(this);
         when(applicationConfig.duration()).thenReturn(3600L);
         when(applicationConfig.maxRequests()).thenReturn(2);
+        dataInitializationService = new DataInitializationService(scheduledThreadPool, applicationConfig, Collections.emptyList(), fixedThreadPool);
     }
 
     @Test
