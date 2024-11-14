@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.gw3nax.kudagoapi.configuration.ApplicationConfig;
+import ru.gw3nax.kudagoapi.service.DataInitializationService;
 
 import java.util.concurrent.*;
 
@@ -33,17 +34,14 @@ class DataInitializationServiceTest {
     }
 
     @Test
-    void testInitializeData_withSemaphoreLimit() {
+    void testInitializeData_withSemaphoreLimit() throws Exception {
         Future<?> mockFuture = mock(Future.class);
-        ScheduledFuture<?> mockScheduledFuture = mock(ScheduledFuture.class);
+        when(mockFuture.get()).thenReturn(null);
 
         doReturn(mockFuture).when(fixedThreadPool).submit(any(Runnable.class));
-        doReturn(mockScheduledFuture).when(scheduledThreadPool).scheduleAtFixedRate(any(Runnable.class), anyLong(), anyLong(), any(TimeUnit.class));
 
-        dataInitializationService.onApplicationStarted();
         dataInitializationService.initializeData();
 
-        verify(fixedThreadPool, times(2)).submit(any(Runnable.class));
+        verify(fixedThreadPool, times(1)).submit(any(Runnable.class));
     }
 }
-

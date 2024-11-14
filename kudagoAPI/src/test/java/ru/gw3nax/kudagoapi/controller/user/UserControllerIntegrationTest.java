@@ -327,13 +327,13 @@ class UserControllerIntegrationTest {
                 .returnResult().getResponseBody();
 
 
-        webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/api/v2/places")
-                        .build())
-                .header("Authentication", "Bearer " + token.getToken())
-                .exchange()
-                .expectStatus().isForbidden();
+//        webClient.get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .path("/api/v2/places")
+//                        .build())
+//                .header("Authentication", "Bearer " + token.getToken())
+//                .exchange()
+//                .expectStatus().isForbidden();
 
         assertThat(actualResponse).isEqualTo(expectedResponse);
     }

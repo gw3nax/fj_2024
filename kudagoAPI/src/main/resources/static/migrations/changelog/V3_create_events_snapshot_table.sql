@@ -3,5 +3,5 @@ CREATE TABLE events_snapshot (
                         name VARCHAR(255) NOT NULL ,
                         created_at DATE NOT NULL,
                         date DATE NOT NULL,
-                        place_id INTEGER REFERENCES places(id)
+                        place_id INTEGER
 );
