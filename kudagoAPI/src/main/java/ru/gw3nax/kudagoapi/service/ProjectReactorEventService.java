@@ -31,7 +31,6 @@ public class ProjectReactorEventService implements MultithreadingEventService {
         Mono<Double> convertedBudgetMono = Mono.defer(
                 () -> Mono.just(currencyClient.postForConvertCurrency(new CurrencyRequest(currency, "RUB", (double) budget)))
         );
-
         Mono<List<KudaGoEventResponse>> eventsMono = Mono.defer(
                 () -> Mono.just(eventsClient.getAllEntities(dateFrom.atStartOfDay().toEpochSecond(ZoneOffset.UTC),
                         dateTo.atStartOfDay().toEpochSecond(ZoneOffset.UTC)))
