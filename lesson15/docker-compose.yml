@@ -1,5 +1,17 @@
 version: '2'
 services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
   zoo1:
     image: confluentinc/cp-zookeeper:7.3.2
     hostname: zoo1
@@ -43,7 +55,7 @@ volumes:
   postgresql: { }
   zookeeper: { }
   kafka: { }
-  grafana: { }
+  rabbitmq_data:
 
 networks:
   backend: { }
